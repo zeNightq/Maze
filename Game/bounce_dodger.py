@@ -5,9 +5,9 @@ import time
 import random
 from cherry import *
 
-WIDTH = 800
+WIDTH = 1000
 HEIGHT = 600
-P_SIDE = 50
+P_SIDE = 20
 P_SPEED = 5
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -38,23 +38,18 @@ screen = pygame.display.set_mode((WIDTH,HEIGHT),DOUBLEBUF)
 pygame.display.set_caption("Bounce Dodger")
 
 player = pygame.Rect(0,00,P_SIDE,P_SIDE)
-red_cherry = Cherry(True,750,550)
+red_cherry = Cherry(True,950,550)
 
 evils = []
-for i in range (30):
-  validplace = False
-  while(not validplace):
-    cher = Cherry(False,random.randint(0,WIDTH),random.randint(0,HEIGHT))
-    for c in evils:
-      if (cher.colliderect(c)):
-        validplace = False
-        break
-      validplace = True
-      
-    if (validplace):
-      evils.append(cher)
-    else:
-      del cher
+for i in range (250):
+  a = random.randint(0,WIDTH)
+  b = random.randint(0,HEIGHT)
+  cher = Cherry(False,a,b)
+  if not(a>200 and a<800 and b>280 and b<360 or (a<50 and b<50) or(a<830 and a>770)):
+    cher = Cherry(False,a,b)
+   
+    evils.append(cher)
+   
 
 
 ''' HW: Make a second cherry and have it
@@ -129,7 +124,10 @@ while (True):
   screen.blit(red_cherry.image,red_cherry.rect)
   for temp in evils:
     screen.blit(temp.image,temp.rect)
-
+  for i in range (25):
+    troll_cherry = Cherry(False,800,30*(i))
+    screen.blit(troll_cherry.image,troll_cherry.rect)
+  
   #score_str = "Score: " + str(score)
   #drawText(score_str, font, screen, 10, 10)
 
