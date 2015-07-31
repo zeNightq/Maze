@@ -14,9 +14,11 @@ BLACK = (0,0,0)
 RED = (255,0,0)
 CYAN = (0,255,255)
 FPS = 60
-lives = 0
+lives = 3
 win = False
-heart.image = pygame.image.load("heart.png")
+
+
+
 
 def drawText(text, font, surface, x, y):
   textobj = font.render(text, 1, BLACK)
@@ -39,8 +41,13 @@ font = pygame.font.SysFont("Comic Sans MS", 36)
 screen = pygame.display.set_mode((WIDTH,HEIGHT),DOUBLEBUF)
 pygame.display.set_caption("Bounce Dodger")
 
+
 player = pygame.Rect(0,00,P_SIDE,P_SIDE)
 red_cherry = Cherry(True,950,550)
+life = Heart(900,10)
+life1 = Heart(930,10)
+a = True
+b = True
 
 evils = []
 for i in range (250):
@@ -106,16 +113,25 @@ while (True):
     win = True
   for i in range(len(evils)-1):
     try:
+      
       if (player.colliderect(evils[i])):
+        player = pygame.Rect(0,00,P_SIDE,P_SIDE)
         del evils[i]
         lives -=1
-        player = pygame.Rect(0,00,P_SIDE,P_SIDE)
+        if (a):      
+          del life
+          a = False
+        elif (b):
+          del life1
+          b = False
+        
+        
         
     except:
       pass
         
 
-  if (lives <= -3):
+  if (lives == 0):
     lose_str = "You lose! Press any key to exit"
     drawText(lose_str,font,screen,WIDTH/4,HEIGHT/2)
     pygame.display.update()
@@ -128,6 +144,7 @@ while (True):
     wait4Key()
 
   # draw
+
   screen.fill(WHITE)
   pygame.draw.rect(screen, CYAN, player)
   screen.blit(red_cherry.image,red_cherry.rect)
@@ -139,7 +156,10 @@ while (True):
   
   #score_str = "Score: " + str(score)
   #drawText(score_str, font, screen, 10, 10)
-
+  if (a):
+    screen.blit(life.image,life.rect)
+  if (b):
+    screen.blit(life1.image,life1.rect)
   pygame.display.update()
 
   clock.tick(FPS)
